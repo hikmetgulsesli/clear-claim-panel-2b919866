@@ -15,8 +15,8 @@ import { useCallback } from "react";
 import { useClearClaimPanelStore } from "../clear-claim-panel/clear-claim-panel.store";
 
 export function useActToggleStatus(): () => void {
-  const store = useClearClaimPanelStore();
+  const { toggleStatus } = useClearClaimPanelStore();
   return useCallback(() => {
-    store.toggleStatus();
-  }, [store]);
+    toggleStatus();
+  }, [toggleStatus]);
 }

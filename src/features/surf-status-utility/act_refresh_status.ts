@@ -14,8 +14,8 @@ import { useCallback } from "react";
 import { useClearClaimPanelStore } from "../clear-claim-panel/clear-claim-panel.store";
 
 export function useActRefreshStatus(): () => void {
-  const store = useClearClaimPanelStore();
+  const { refresh } = useClearClaimPanelStore();
   return useCallback(() => {
-    store.refresh();
-  }, [store]);
+    refresh();
+  }, [refresh]);
 }
