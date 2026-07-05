@@ -92,7 +92,7 @@ function reducer(state: ClearClaimPanelState, action: Action): ClearClaimPanelSt
         queueDepth: Math.max(0, state.counts.queueDepth - 1),
       };
       const log = appendLog(state, "Manual refresh completed.", "INFO");
-      return { ...state, preferences, counts, log, lastError: null };
+      return { ...state, preferences, counts, log, storageStatus: "ok", lastError: null };
     }
     case "TOGGLE_STATUS": {
       const nextStatus = state.preferences.status === "ready" ? "paused" : "ready";
@@ -105,7 +105,7 @@ function reducer(state: ClearClaimPanelState, action: Action): ClearClaimPanelSt
         nextStatus === "paused" ? "Processing paused by user." : "Processing resumed.",
         nextStatus === "paused" ? "WARN" : "INFO",
       );
-      return { ...state, preferences, log };
+      return { ...state, preferences, log, storageStatus: "ok" };
     }
     case "SET_SELECTED_ITEM":
       return { ...state, selectedItem: action.payload };
@@ -228,7 +228,11 @@ export function ClearClaimPanelStoreProvider(props: ClearClaimPanelStoreProvider
   }, []);
 
   const reset = useCallback(() => {
+    const cleared = clearPreferences();
     dispatch({ type: "RESET" });
+    if (!cleared.ok) {
+      dispatch({ type: "SET_LAST_ERROR", payload: cleared.error });
+    }
   }, []);
 
   const value = useMemo<ClearClaimPanelStore>(
@@ -275,38 +279,41 @@ export function useClearClaimPanelState(): ClearClaimPanelState {
  */
 export function ClearClaimPanelWindowBridge() {
   const store = useClearClaimPanelStore();
+  const storeRef = useRef(store);
+  storeRef.current = store;
+
   useEffect(() => {
     const api: ClearClaimPanelWindowApi = {
       get activeSurface() {
-        return store.activeSurface;
+        return storeRef.current.activeSurface;
       },
       get selectedItem() {
-        return store.selectedItem;
+        return storeRef.current.selectedItem;
       },
       get storageStatus() {
-        return store.storageStatus;
+        return storeRef.current.storageStatus;
       },
       get lastError() {
-        return store.lastError;
+        return storeRef.current.lastError;
       },
       get activePanel() {
-        return store.activePanel;
+        return storeRef.current.activePanel;
       },
       get counts() {
-        return store.counts;
+        return storeRef.current.counts;
       },
       get preferences() {
-        return store.preferences;
+        return storeRef.current.preferences;
       },
       get log() {
-        return store.log;
+        return storeRef.current.log;
       },
-      refresh: () => store.refresh(),
-      toggleStatus: () => store.toggleStatus(),
-      setSelectedItem: (id) => store.setSelectedItem(id),
-      setActivePanel: (panel) => store.setActivePanel(panel),
-      setLastError: (error) => store.setLastError(error),
-      reset: () => store.reset(),
+      refresh: () => storeRef.current.refresh(),
+      toggleStatus: () => storeRef.current.toggleStatus(),
+      setSelectedItem: (id) => storeRef.current.setSelectedItem(id),
+      setActivePanel: (panel) => storeRef.current.setActivePanel(panel),
+      setLastError: (error) => storeRef.current.setLastError(error),
+      reset: () => storeRef.current.reset(),
     };
     window.app = api;
     return () => {
@@ -314,16 +321,6 @@ export function ClearClaimPanelWindowBridge() {
         delete window.app;
       }
     };
-  }, [
-    store.activeSurface,
-    store.selectedItem,
-    store.storageStatus,
-    store.lastError,
-    store.activePanel,
-    store.counts,
-    store.preferences,
-    store.log,
-    store,
-  ]);
+  }, []);
   return null;
 }
