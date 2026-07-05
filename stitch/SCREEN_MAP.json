@@ -1,0 +1,11 @@
+[
+  {
+    "screenId": "063846a373b346f59db58243d7705095",
+    "name": "Status Utility - Clear Claim Panel",
+    "type": "app-screen",
+    "description": "Status Utility - Clear Claim Panel screen",
+    "surfaceIds": [
+      "SURF_STATUS_UTILITY"
+    ]
+  }
+]
