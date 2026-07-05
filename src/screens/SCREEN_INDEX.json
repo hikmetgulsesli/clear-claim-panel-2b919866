@@ -1,0 +1,25 @@
+[
+  {
+    "screenId": "063846a373b346f59db58243d7705095",
+    "title": "Status Utility - Clear Claim Panel",
+    "componentName": "StatusUtilityClearClaimPanel",
+    "file": "src/screens/StatusUtilityClearClaimPanel.tsx",
+    "buttons": 2,
+    "inputs": 1,
+    "links": 0,
+    "actions": [
+      {
+        "id": "refresh-status-1",
+        "kind": "button",
+        "label": "Refresh Status",
+        "index": 0
+      },
+      {
+        "id": "force-sync-2",
+        "kind": "button",
+        "label": "Force Sync",
+        "index": 1
+      }
+    ]
+  }
+]
