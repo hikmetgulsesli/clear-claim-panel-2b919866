@@ -1,0 +1,50 @@
+[
+  {
+    "screenId": "063846a373b346f59db58243d7705095",
+    "screenTitle": "Status Utility - Clear Claim Panel",
+    "deviceType": "DESKTOP",
+    "elements": [
+      {
+        "type": "button",
+        "label": "refresh",
+        "line": 119
+      },
+      {
+        "type": "button",
+        "label": "sync Force Sync",
+        "line": 148
+      },
+      {
+        "type": "input",
+        "label": "checkbox",
+        "inputType": "checkbox",
+        "line": 143
+      }
+    ],
+    "navigation": [],
+    "buttons": [
+      {
+        "type": "button",
+        "label": "refresh",
+        "line": 119
+      },
+      {
+        "type": "button",
+        "label": "sync Force Sync",
+        "line": 148
+      }
+    ],
+    "inputs": [
+      {
+        "type": "input",
+        "label": "checkbox",
+        "inputType": "checkbox",
+        "line": 143
+      }
+    ],
+    "hardcodedData": [],
+    "totalInteractive": 3,
+    "requiresRouter": false,
+    "requiresDragDrop": true
+  }
+]
